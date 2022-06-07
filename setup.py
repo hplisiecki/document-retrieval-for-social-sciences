@@ -4,14 +4,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="example-package-YOUR-USERNAME-HERE",
+    name="hplisiecki",
     version="0.0.1",
-    author="Example Author",
-    author_email="author@example.com",
-    description="A small example package",
+    author="Hubert Plisiecki",
+    author_email="hplisiecki@gmail.com",
+    description="This package provides a simple method to retrieve documents from large text corpora for use in social sciences",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/hplisiecki/document-retrieval-for-social-sciences/tree/main",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
