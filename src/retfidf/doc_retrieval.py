@@ -20,6 +20,8 @@ class DocumentRetrieval(object):
             print('Training the word embeddings')
             # train the word embeddings
             self.model = Word2Vec(sentences = self.tokenized_documents, vector_size=size, window=window, min_count=min_count, workers=workers)
+        else:
+            self.model = model
         print('Computing the TF-IDF scores')
         # self.scores = self.tfidf(corpus)
         self.dictionary = corpora.Dictionary()
@@ -31,7 +33,7 @@ class DocumentRetrieval(object):
         print('Creating the Document Embeddings')
         self.df = pd.DataFrame(corpus, columns=['text'])
         # create the tf-idf weighted doc embeddings
-        self.df['embeddings'] = self.create_embeddings(self.model, self.df['text'])
+        self.df['embeddings'] = self.create_embeddings(self.model, self.tokenized_documents)
 
 
     def calculate_similarity(self, query):
@@ -43,7 +45,10 @@ class DocumentRetrieval(object):
             for q in query.split():
                 try:
                     # get the embedding of the word
-                    emb = self.model.wv[q]
+                    try:
+                        emb = self.model[q]
+                    except:
+                        emb = self.model.wv[q]
                     retained = retained + q + ' '
                     # add the embedding weighted by the idf to the embedding set
                     embeddings.append(emb * self.idf(q, self.tokenized_documents))
@@ -55,7 +60,10 @@ class DocumentRetrieval(object):
             print(f'Performing saturation for the following query: {retained}')
         else:
             try:
-                query_embedding = self.model.wv[query]
+                try:
+                    query_embedding = self.model[query]
+                except:
+                    query_embedding = self.model.wv[query]
                 print(f'Performing saturation for the following query: {query}')
             except:
                 print('The query is not in the vocabulary.')
@@ -81,14 +89,16 @@ class DocumentRetrieval(object):
             temponary = dict(zip([self.dictionary[number[0]] for number in self.tfidf_scores[self.bow][i]],
                                  [number[1] for number in self.tfidf_scores[self.bow][i]]))
             # pick the document
-            document = corpus[i]
-            # create a list of words in the document
-            words = document.split()
+            words = corpus[i]
+
             # create a list of word embeddings for each word in the document
             embeddings = []
             for word in words:
                 try:
-                    embeddings.append(model.wv[word] * temponary[word])
+                    try:
+                        embeddings.append(model[word] * temponary[word])
+                    except:
+                        embeddings.append(model.wv[word] * temponary[word])
                 except:
                     continue
             # create an embedding by averaging the word embeddings
@@ -108,18 +118,5 @@ class DocumentRetrieval(object):
                 df += 1
         return math.log(n / df)
 
-# load the after_averaging.csv file
-df = pd.read_csv('after_averaging.csv')
 
-# create a dataframe out of the corpus
-emb_sim = DocumentRetrieval(df['text'])
-
-# calculate the cosine similarity between the embedding and all documents in the dataframe
-df['demokracja'] = emb_sim.calculate_similarity('demokracja')
-
-# sort the dataframe by the cosine similarity
-df.sort_values(by=['demokracja'], ascending=False, inplace=True)
-
-# print the top 10 documents
-print(df.head(10))
 

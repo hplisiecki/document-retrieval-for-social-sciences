@@ -1,0 +1,10 @@
+LICENSE.txt
+README.md
+pyproject.toml
+setup.py
+src/retfidf/__init__.py
+src/retfidf/doc_retrieval.py
+src/retfidf_hplisiecki.egg-info/PKG-INFO
+src/retfidf_hplisiecki.egg-info/SOURCES.txt
+src/retfidf_hplisiecki.egg-info/dependency_links.txt
+src/retfidf_hplisiecki.egg-info/top_level.txt

@@ -1,3 +1,17 @@
+Metadata-Version: 2.1
+Name: retfidf-hplisiecki
+Version: 0.0.1
+Summary: This package provides a simple method to retrieve documents from large text corpora for use in social sciences
+Home-page: https://github.com/hplisiecki/document-retrieval-for-social-sciences/tree/main
+Author: Hubert Plisiecki
+Author-email: hplisiecki@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+
 # Document retrieval for social sciences
 
 
