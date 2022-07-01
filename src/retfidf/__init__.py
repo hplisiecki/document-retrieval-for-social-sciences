@@ -1,1 +1,1 @@
-from .doc_retrieval import DocumentRetrieval
+from .doc_retrieval import doc_retrieval

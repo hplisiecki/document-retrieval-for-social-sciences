@@ -9,11 +9,21 @@ import numpy as np
 import math
 
 
-class DocumentRetrieval(object):
+class doc_retrieval(object):
+
     # Class that at start-up creates tf-idf weighted document embeddings
     # and then can be used to perform saturation on the basis of a query
 
     def __init__(self, corpus, size = 300, window = 5, min_count = 5, workers = 4, model = None):
+        """
+
+        :param corpus: list of strings
+        :param size: size of the embedding vectors (for training)
+        :param window: size of the window for the Word2Vec model
+        :param min_count: minimum number of times a word must appear in the corpus to be included in the model
+        :param workers: number of workers for the Word2Vec model
+        :param model: a pretrained Word2Vec model (optional)
+        """
         # preprocess
         self.tokenized_documents = [simple_preprocess(doc) for doc in corpus]
         if model is None:
@@ -37,7 +47,11 @@ class DocumentRetrieval(object):
 
 
     def calculate_similarity(self, query):
-        # calculate the cosine similarity between the embedding and all documents in the dataframe
+        """
+        Calculate the similarity between a query and all the documents in the corpus
+        :param query: single or multiple words string
+        :return: a list of tuples (document, similarity)
+        """
         if len(query.split()) > 1:
             embeddings = []
             retained = ''
@@ -74,14 +88,22 @@ class DocumentRetrieval(object):
         return similarities
 
     def cosine_similarity(self, embedding1, embedding2):
-        # calculate the cosine similarity between two embeddings
-
+        """
+        Calculate the cosine similarity between two embeddings
+        :param embedding1: a vector
+        :param embedding2: another vector
+        :return: the cosine similarity
+        """
         return 1 - spatial.distance.cosine(embedding1, embedding2)
 
 
     def create_embeddings(self, model, corpus):
-        # create the embedding for each document
-
+        """
+        Create the embeddings for the documents
+        :param model: a trained Word2Vec model
+        :param corpus: a list of strings
+        :return: a list of vectors
+        """
         embedding_set = []
         # for each document in the corpus
         for i in tqdm(range(len(corpus))):
@@ -110,13 +132,15 @@ class DocumentRetrieval(object):
         return embedding_set
 
     def idf(self, word, tokenized_documents):
-        # calculate the inverse document frequency of a word
+        """
+        Calculate the inverse document frequency for a word
+        :param word: a single word string
+        :param tokenized_documents: a list of strings
+        :return: the inverse document frequency
+        """
         n = len(tokenized_documents)
         df = 0
         for doc in tokenized_documents:
             if word in doc:
                 df += 1
         return math.log(n / df)
-
-
-
