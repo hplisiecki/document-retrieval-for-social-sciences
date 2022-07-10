@@ -1,7 +1,7 @@
 # Document retrieval for social sciences
 
-This package provides a simple method to retrieve documents from large text corpora. For use in social sciences.  
-It accompanies the paper [Finding democracy in big data: document retrieval using word-embedding] and is an  
+This package provides a simple method to retrieve documents from large text corpora. For use in social  
+sciences. It accompanies the paper [Finding democracy in big data: document retrieval using word-embedding] and is an  
 implementation of the algorithm described in the paper.
 
 ### Manual
